@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -67,7 +69,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 1
+    var number = n
+    while (number > 9) {
+        number = number / 10
+        count++
+    }
+    return count
+}
 
 /**
  * Простая
@@ -75,7 +85,13 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = TODO() /*
+    var number[1] = 1
+    for (i in 1..n) {
+        number [i+2] = number [i] + number [i+1]
+    }
+    return number
+}*/
 
 /**
  * Простая
@@ -83,7 +99,18 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var max = maxOf(m, n)
+    var min = minOf(m, n)
+    var gcd: Int
+    while (max != min) {
+        if (max > min) {
+            max = max - min
+        } else min = min - max
+    }
+    gcd = max
+    return (m * n) / gcd
+}
 
 /**
  * Простая
@@ -164,7 +191,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var power = 0
+    var number1 = n
+    var number2 = n
+    var digit:Int
+    var new = 0
+    while (number1 / 10 != 0) {
+        number1 = number1 / 10
+        power++
+    }
+    for (i in power downTo 0) {
+        digit = number2 % 10
+        number2 = number2 / 10
+        new = new + (digit * 10.toDouble().pow(i).toInt())
+    }
+    return new
+}
 
 /**
  * Средняя
@@ -175,7 +218,13 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = TODO() /*{
+    var number1=n
+    while (number1 / 10 != 0) {
+        number1 = number1 / 10
+        power++
+    }
+}*/
 
 /**
  * Средняя
