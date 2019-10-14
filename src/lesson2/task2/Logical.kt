@@ -32,10 +32,10 @@ fun isNumberHappy(number: Int): Boolean =
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val horizontalDistance: Int = x2 - x1
-    val x: Int = abs(horizontalDistance)
-    val verticalDistance: Int = y2 - y1
-    val y: Int = abs(verticalDistance)
+    val horizontalDistance = x2 - x1
+    val x = abs(horizontalDistance)
+    val verticalDistance = y2 - y1
+    val y = abs(verticalDistance)
     if (x == y || x1 == x2 || y1 == y2) return true
     return false
 }
@@ -73,9 +73,8 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean {
-    return if ((sqrt(sqr(x2 - x1) + sqr(y2 - y1)) == (r2 - r1)) && (r1 <= r2)) true else false
-}
+): Boolean =
+    ((sqrt(sqr(x2 - x1) + sqr(y2 - y1)) <= (r2 - r1)) && (r1 <= r2))
 
 /**
  * Средняя
@@ -87,10 +86,10 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val maxOfBrick: Int = maxOf(a, b, c)
-    val minOfBrick: Int = minOf(a, b, c)
-    val midOfBrick: Int = (a + b + c) - maxOfBrick - minOfBrick
-    val maxOfHole: Int = maxOf(r, s)
-    val minOfHole: Int = minOf(r, s)
-    return if ((maxOfBrick <= maxOfHole || midOfBrick <= maxOfHole) && (minOfBrick <= minOfHole || midOfBrick <= minOfHole)) true else false
+    val maxOfBrick = maxOf(a, b, c)
+    val minOfBrick = minOf(a, b, c)
+    val midOfBrick = (a + b + c) - maxOfBrick - minOfBrick
+    val maxOfHole = maxOf(r, s)
+    val minOfHole = minOf(r, s)
+    return (maxOfBrick <= maxOfHole || midOfBrick <= maxOfHole) && (minOfBrick <= minOfHole || midOfBrick <= minOfHole)
 }

@@ -63,7 +63,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val lastDigit: Int = age % 10
+    val lastDigit = age % 10
     if (age !in 10..20 && age !in 110..120) {
         if (lastDigit == 1) return "$age год"
         if (lastDigit in 2..4) return "$age года"
@@ -128,10 +128,10 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    val horizontalDistance: Int = kingX - bishopX
-    val x: Int = abs(horizontalDistance)
-    val verticalDistance: Int = kingY - bishopY
-    val y: Int = abs(verticalDistance)
+    val horizontalDistance = kingX - bishopX
+    val x = abs(horizontalDistance)
+    val verticalDistance = kingY - bishopY
+    val y = abs(verticalDistance)
     if (kingX == rookX || kingY == rookY || x == y) { //check, whether there is a threat at all
         if ((kingX == rookX || kingY == rookY) && (x != y)) return 1 //return 1 if the rook is a threat
         if ((x == y) && (kingX != rookX && kingY != rookY)) return 2 //return 2 if the bishop is a threat
@@ -153,9 +153,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val min = minOf(a, b, c)
     val middle = a + b + c - max - min
     if (max < middle + min) {
-        if (max.pow(2) < middle.pow(2) + min.pow(2)) return 0
-        if (max.pow(2) > middle.pow(2) + min.pow(2)) return 2
-        else return 1
+        return if (max.pow(2) < middle.pow(2) + min.pow(2)) 0 else if (max.pow(2) > middle.pow(2) + min.pow(2)) 2 else 1
     }
     return -1
 }
@@ -170,8 +168,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (b >= a && d >= c && d >= a && b >= c) {
-        val max: Int = maxOf(b, d)
-        val min: Int = minOf(a, c)
+        val max = maxOf(b, d)
+        val min = minOf(a, c)
         if (a == min && b == max) return d - c
         if (c == min && d == max) return b - a
         if (a == min && d == max) return abs(b - c)
