@@ -72,8 +72,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 1
     var number = n
-    while (number > 9) {
-        number = number / 10
+    while (number !in -9..9) {
+        number /= 10
         count++
     }
     return count
@@ -85,13 +85,17 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO() /*
-    var number[1] = 1
-    for (i in 1..n) {
-        number [i+2] = number [i] + number [i+1]
+fun fib(n: Int): Int {
+    var a1 = 1
+    var a2 = 1
+    var a3 = 1
+    for (i in 3..n) {
+        a3 = a1
+        a1 = a2
+        a2 = a3 + a1
     }
-    return number
-}*/
+    return a2
+}
 
 /**
  * Простая
@@ -102,11 +106,11 @@ fun fib(n: Int): Int = TODO() /*
 fun lcm(m: Int, n: Int): Int {
     var max = maxOf(m, n)
     var min = minOf(m, n)
-    var gcd: Int
+    val gcd: Int
     while (max != min) {
         if (max > min) {
             max = max - min
-        } else min = min - max
+        } else min -= max
     }
     gcd = max
     return (m * n) / gcd
@@ -117,14 +121,34 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    val simple = isPrime(n)
+    if (simple == false) {
+        for (i in 2..n) {
+            if (n % i == 0) {
+                return i
+            }
+        }
+    }
+    return n
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    val simple = isPrime(n)
+    if (simple == false) {
+        for (i in n - 1 downTo 2) {
+            if (n % i == 0) {
+                return i
+            }
+        }
+    }
+    return 1
+}
 
 /**
  * Простая
@@ -133,7 +157,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val minDivisorFirst = minDivisor(m)
+    val minDivisorSecond = minDivisor(n)
+    val max = maxOf(m, n)
+    val min = minOf(m, n)
+    if (minDivisorFirst == minDivisorSecond || max / min == minDivisorSecond) {
+        return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -142,7 +175,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in n downTo m) {
+        val temp = sqrt(i.toDouble())
+        if (temp % 1.0 == 0.0) {
+            return true
+        }
+    }
+    return false
+}
 
 /**
  * Средняя
@@ -192,19 +233,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    var power = 0
-    var number1 = n
+    val power = digitNumber(n) - 1
     var number2 = n
-    var digit:Int
+    var digit: Int
     var new = 0
-    while (number1 / 10 != 0) {
-        number1 = number1 / 10
-        power++
-    }
     for (i in power downTo 0) {
         digit = number2 % 10
-        number2 = number2 / 10
-        new = new + (digit * 10.toDouble().pow(i).toInt())
+        number2 /= 10
+        new += (digit * 10.toDouble().pow(i).toInt())
     }
     return new
 }
@@ -257,3 +293,4 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+

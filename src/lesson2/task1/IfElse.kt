@@ -105,11 +105,9 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    if (kingX == rookX1 || kingX == rookX2 || kingY == rookY1 || kingY == rookY2) { //check, whether there is a threat at all
-        if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) return 1 //return 1 if the rook1 is a threat
-        if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) return 2 //return 2 if the rook2 is a threat
-        if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) return 3 //return 3 if rook1 and rook2 are threats
-    }
+    if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) return 1 //return 1 if the rook1 is a threat
+    if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) return 2 //return 2 if the rook2 is a threat
+    if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) return 3 //return 3 if rook1 and rook2 are threats
     return 0
 }
 
@@ -132,11 +130,9 @@ fun rookOrBishopThreatens(
     val x = abs(horizontalDistance)
     val verticalDistance = kingY - bishopY
     val y = abs(verticalDistance)
-    if (kingX == rookX || kingY == rookY || x == y) { //check, whether there is a threat at all
-        if ((kingX == rookX || kingY == rookY) && (x != y)) return 1 //return 1 if the rook is a threat
-        if ((x == y) && (kingX != rookX && kingY != rookY)) return 2 //return 2 if the bishop is a threat
-        if ((kingX == rookX || kingY == rookY) && (x == y)) return 3 //return 3 if rook1 and bishop are threats
-    }
+    if ((kingX == rookX || kingY == rookY) && (x != y)) return 1 //return 1 if the rook is a threat
+    if ((x == y) && (kingX != rookX && kingY != rookY)) return 2 //return 2 if the bishop is a threat
+    if ((kingX == rookX || kingY == rookY) && (x == y)) return 3 //return 3 if rook1 and bishop are threats
     return 0
 }
 
@@ -153,7 +149,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val min = minOf(a, b, c)
     val middle = a + b + c - max - min
     if (max < middle + min) {
-        return if (max.pow(2) < middle.pow(2) + min.pow(2)) 0 else if (max.pow(2) > middle.pow(2) + min.pow(2)) 2 else 1
+        return if (max.pow(2) < middle.pow(2) + min.pow(2)) 0
+        else if (max.pow(2) > middle.pow(2) + min.pow(2)) 2
+        else 1
     }
     return -1
 }
