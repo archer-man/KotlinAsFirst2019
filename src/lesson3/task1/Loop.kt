@@ -162,7 +162,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     val minDivisorSecond = minDivisor(n)
     val max = maxOf(m, n)
     val min = minOf(m, n)
-    if (minDivisorFirst == minDivisorSecond || max / min == minDivisorSecond) {
+    if ((minDivisorFirst == minDivisorSecond || max / min == minDivisorSecond) && max != min) {
         return false
     }
     return true
