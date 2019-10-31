@@ -123,7 +123,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     val simple = isPrime(n)
-    if (simple == false) {
+    if (!simple) {
         for (i in 2..n) {
             if (n % i == 0) {
                 return i
@@ -158,11 +158,16 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val minDivisorFirst = minDivisor(m)
-    val minDivisorSecond = minDivisor(n)
-    val max = maxOf(m, n)
-    val min = minOf(m, n)
-    if ((minDivisorFirst == minDivisorSecond || max / min == minDivisorSecond) && max != min) {
+    var max = maxOf(m, n)
+    var min = minOf(m, n)
+    var gcd: Int
+    while (max != min) {
+        if (max > min) {
+            max = max - min
+        } else min -= max
+    }
+    gcd = max
+    if (gcd != 1) {
         return false
     }
     return true
@@ -201,7 +206,21 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var counter1 = 0
+    var digit = x
+    while (digit != 1) {
+        if (digit % 2 == 0) {
+            digit /= 2
+            counter1++
+        } else {
+            digit = 3 * digit + 1
+            counter1 = counter1 + 1
+        }
+    }
+    return counter1
+}
+
 
 /**
  * Средняя
