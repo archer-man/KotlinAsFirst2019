@@ -3,6 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
+import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.collections.listOf as listOf1
 
@@ -182,7 +184,18 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    var new = mutableListOf<Int>()
+    var temp: Int
+    if (p.isNotEmpty()) {
+        for (i in 0 until p.size) {
+            temp = p[i] * x.toDouble().pow(i).toInt()
+            new.add(temp)
+        }
+        return new.sum()
+    }
+    return 0
+}
 
 /**
  * Средняя
@@ -194,7 +207,16 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    var temp = 1
+    if (list.isNotEmpty()) {
+        for (i in 1 until list.size) {
+            temp += list[i]
+            list[i] = temp
+        }
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -203,7 +225,20 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    //var temp:Double
+    var list = mutableListOf<Int>()
+    var m = n
+    while (m != 1) {
+        for (i in 2..n) {
+            if (m % i == 0) {
+                m/=i
+                list.add(i)
+            }
+        }
+    }
+    return list.sorted()
+}
 
 /**
  * Сложная
@@ -213,6 +248,10 @@ fun factorize(n: Int): List<Int> = TODO()
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String = TODO()
+    /*var m = factorize(n)
+    var new = m.joinToString(separator = "*")
+    return new*/
+
 
 /**
  * Средняя
