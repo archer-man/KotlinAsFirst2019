@@ -167,10 +167,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         } else min -= max
     }
     gcd = max
-    if (gcd != 1) {
-        return false
-    }
-    return true
+    return gcd == 1
 }
 
 /**
@@ -330,6 +327,6 @@ fun fibSequenceDigit(n: Int): Int {
         sum += amountOfDigits
         i++
     }
-    new /= 10.0.pow(amountOfDigits - 1).toInt()
+    new = (new / 10.0.pow(sum - n).toInt()) % 10
     return new
 }
