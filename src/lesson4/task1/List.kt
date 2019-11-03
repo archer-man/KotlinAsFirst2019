@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
+import kotlin.collections.listOf as listOf1
 
 /**
  * Пример
@@ -12,12 +13,12 @@ import kotlin.math.sqrt
  */
 fun sqRoots(y: Double) =
     when {
-        y < 0 -> listOf()
-        y == 0.0 -> listOf(0.0)
+        y < 0 -> listOf1()
+        y == 0.0 -> listOf1(0.0)
         else -> {
             val root = sqrt(y)
             // Результат!
-            listOf(-root, root)
+            listOf1(-root, root)
         }
     }
 
@@ -29,11 +30,11 @@ fun sqRoots(y: Double) =
  */
 fun biRoots(a: Double, b: Double, c: Double): List<Double> {
     if (a == 0.0) {
-        return if (b == 0.0) listOf()
+        return if (b == 0.0) listOf1()
         else sqRoots(-c / b)
     }
     val d = discriminant(a, b, c)
-    if (d < 0.0) return listOf()
+    if (d < 0.0) return listOf1()
     if (d == 0.0) return sqRoots(-b / (2 * a))
     val y1 = (-b + sqrt(d)) / (2 * a)
     val y2 = (-b - sqrt(d)) / (2 * a)
@@ -115,14 +116,25 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    val k = v.map { it * it }
+    val sum = sqrt(k.sum())
+    return sum
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var mean: Double
+    if (list.isNotEmpty()) {
+        mean = (list.sum()) / list.size
+        return mean
+    }
+    return 0.0
+}
 
 /**
  * Средняя
@@ -132,7 +144,15 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val m = mean(list)
+    if (list.isNotEmpty()) {
+        for (i in 0 until list.size) {
+            list[i] -= m
+        }
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -141,7 +161,18 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var new = mutableListOf<Int>()
+    var product: Int
+    if (a.isNotEmpty() && b.isNotEmpty()) {
+        for (i in 0 until a.size) {
+            product = a[i] * b[i]
+            new.add(product)
+        }
+        return new.sum()
+    }
+    return 0
+}
 
 /**
  * Средняя

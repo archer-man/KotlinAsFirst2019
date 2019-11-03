@@ -160,14 +160,12 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var max = maxOf(m, n)
     var min = minOf(m, n)
-    val gcd: Int
     while (max != min) {
         if (max > min) {
             max -= min
         } else min -= max
     }
-    gcd = max
-    return gcd == 1
+    return max == 1
 }
 
 /**
