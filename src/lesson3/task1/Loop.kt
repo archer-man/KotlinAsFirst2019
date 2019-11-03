@@ -109,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
     val gcd: Int
     while (max != min) {
         if (max > min) {
-            max = max - min
+            max -= min
         } else min -= max
     }
     gcd = max
@@ -140,7 +140,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     val simple = isPrime(n)
-    if (simple == false) {
+    if (!simple) {
         for (i in n - 1 downTo 2) {
             if (n % i == 0) {
                 return i
@@ -160,10 +160,10 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var max = maxOf(m, n)
     var min = minOf(m, n)
-    var gcd: Int
+    val gcd: Int
     while (max != min) {
         if (max > min) {
-            max = max - min
+            max -= min
         } else min -= max
     }
     gcd = max
@@ -207,20 +207,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var counter1 = 0
+    var counter = 0
     var digit = x
     while (digit != 1) {
         if (digit % 2 == 0) {
             digit /= 2
-            counter1++
         } else {
             digit = 3 * digit + 1
-            counter1 = counter1 + 1
         }
+        counter++
     }
-    return counter1
+    return counter
 }
-
 
 /**
  * Средняя
@@ -273,13 +271,10 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO() /*{
-    var number1=n
-    while (number1 / 10 != 0) {
-        number1 = number1 / 10
-        power++
-    }
-}*/
+fun isPalindrome(n: Int): Boolean {
+    val reversed = revert(n)
+    return reversed == n
+}
 
 /**
  * Средняя
@@ -300,7 +295,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sum = 0
+    var new = 0
+    var digitNumber = 0
+    var amountOfDigits = 0
+    while (sum < n) {
+        digitNumber++
+        new = digitNumber.toDouble().pow(2).toInt()
+        amountOfDigits = digitNumber(new)
+        sum += amountOfDigits
+    }
+    new = (new / 10.0.pow(sum - n).toInt()) % 10
+    return new
+}
 
 /**
  * Сложная
@@ -311,5 +319,17 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
-
+fun fibSequenceDigit(n: Int): Int {
+    var sum = 0
+    var new = 0
+    var i = 1
+    var amountOfDigits = 0
+    while (sum < n) {
+        new = fib(i)
+        amountOfDigits = digitNumber(new)
+        sum += amountOfDigits
+        i++
+    }
+    new /= 10.0.pow(amountOfDigits - 1).toInt()
+    return new
+}
