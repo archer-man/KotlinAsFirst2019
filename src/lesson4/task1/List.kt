@@ -226,16 +226,18 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    //var temp:Double
     var list = mutableListOf<Int>()
     var m = n
-    while (m != 1) {
-        for (i in 2..n) {
-            if (m % i == 0) {
-                m/=i
-                list.add(i)
-            }
-        }
+    var i = 2
+    if (isPrime(n)) {
+        list.add(n)
+        return list
+    }
+    while (m != 1 && i <= n) {
+        if (m % i == 0) {
+            m /= i
+            list.add(i)
+        } else i++
     }
     return list.sorted()
 }
@@ -247,11 +249,11 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
-    /*var m = factorize(n)
+fun factorizeToString(n: Int): String {
+    var m = factorize(n)
     var new = m.joinToString(separator = "*")
-    return new*/
-
+    return new
+}
 
 /**
  * Средняя
