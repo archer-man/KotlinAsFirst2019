@@ -261,14 +261,14 @@ fun convert(n: Int, base: Int): List<Int> {
     val sortedList = mutableListOf<Int>()
     var temp: Int
     var m = n
+    if (n == 1) {
+        unsortedList.add(n)
+        return unsortedList
+    }
     while (m != 0 || m >= base) {
         temp = m % base
         m /= base
         unsortedList.add(temp)
-    }
-    if (n == 1) {
-        unsortedList.add(n)
-        return unsortedList
     }
     for (i in unsortedList.size - 1 downTo 0) {
         sortedList.add(unsortedList[i])
