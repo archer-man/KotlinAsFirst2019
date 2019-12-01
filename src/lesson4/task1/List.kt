@@ -120,8 +120,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     val k = v.map { it * it }
-    val sum = sqrt(k.sum())
-    return sum
+    return sqrt(k.sum())
 }
 
 /**
@@ -130,7 +129,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var mean: Double
+    val mean: Double
     if (list.isNotEmpty()) {
         mean = (list.sum()) / list.size
         return mean
@@ -148,10 +147,8 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val m = mean(list)
-    if (list.isNotEmpty()) {
-        for (i in 0 until list.size) {
-            list[i] -= m
-        }
+    for (i in 0 until list.size) {
+        list[i] -= m
     }
     return list
 }
@@ -164,16 +161,15 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int {
-    var new = mutableListOf<Int>()
     var product: Int
+    var sum = 0
     if (a.isNotEmpty() && b.isNotEmpty()) {
         for (i in 0 until a.size) {
             product = a[i] * b[i]
-            new.add(product)
+            sum += product
         }
-        return new.sum()
     }
-    return 0
+    return sum
 }
 
 /**
@@ -185,16 +181,13 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    var new = mutableListOf<Int>()
     var temp: Int
-    if (p.isNotEmpty()) {
-        for (i in 0 until p.size) {
-            temp = p[i] * x.toDouble().pow(i).toInt()
-            new.add(temp)
-        }
-        return new.sum()
+    var sum = 0
+    for (i in 0 until p.size) {
+        temp = p[i] * x.toDouble().pow(i).toInt()
+        sum += temp
     }
-    return 0
+    return sum
 }
 
 /**
@@ -208,11 +201,13 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    var temp = 1
+    var sum = 0
+    var previousResult = 0
     if (list.isNotEmpty()) {
-        for (i in 1 until list.size) {
-            temp += list[i]
-            list[i] = temp
+        for (i in 0 until list.size) {
+            previousResult = list[i]
+            sum += previousResult
+            list[i] = sum
         }
     }
     return list
@@ -226,7 +221,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     var m = n
     var i = 2
     if (isPrime(n)) {
@@ -239,7 +234,7 @@ fun factorize(n: Int): List<Int> {
             list.add(i)
         } else i++
     }
-    return list.sorted()
+    return list
 }
 
 /**
@@ -250,9 +245,8 @@ fun factorize(n: Int): List<Int> {
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String {
-    var m = factorize(n)
-    var new = m.joinToString(separator = "*")
-    return new
+    val m = factorize(n)
+    return m.joinToString(separator = "*")
 }
 
 /**
@@ -262,7 +256,25 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val unsortedList = mutableListOf<Int>()
+    val sortedList = mutableListOf<Int>()
+    var temp: Int
+    var m = n
+    while (m != 0 || m >= base) {
+        temp = m % base
+        m /= base
+        unsortedList.add(temp)
+    }
+    if (n == 1) {
+        unsortedList.add(n)
+        return unsortedList
+    }
+    for (i in unsortedList.size - 1 downTo 0) {
+        sortedList.add(unsortedList[i])
+    }
+    return sortedList
+}
 
 /**
  * Сложная
