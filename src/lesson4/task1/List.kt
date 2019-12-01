@@ -261,7 +261,7 @@ fun convert(n: Int, base: Int): List<Int> {
     val sortedList = mutableListOf<Int>()
     var temp: Int
     var m = n
-    if (n == 1) {
+    if (n == 1 || n == 0) {
         unsortedList.add(n)
         return unsortedList
     }

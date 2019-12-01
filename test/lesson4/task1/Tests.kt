@@ -185,6 +185,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun convert() {
+        assertEquals(listOf(0), convert(0, 2))
         assertEquals(listOf(1), convert(1, 2))
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
