@@ -202,13 +202,11 @@ fun polynom(p: List<Int>, x: Int): Int {
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     var sum = 0
-    var previousResult = 0
-    if (list.isNotEmpty()) {
-        for (i in 0 until list.size) {
-            previousResult = list[i]
-            sum += previousResult
-            list[i] = sum
-        }
+    var previousResult:Int
+    for (i in 0 until list.size) {
+        previousResult = list[i]
+        sum += previousResult
+        list[i] = sum
     }
     return list
 }
@@ -258,7 +256,6 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     val unsortedList = mutableListOf<Int>()
-    val sortedList = mutableListOf<Int>()
     var temp: Int
     var m = n
     if (n == 1 || n == 0) {
@@ -270,10 +267,7 @@ fun convert(n: Int, base: Int): List<Int> {
         m /= base
         unsortedList.add(temp)
     }
-    for (i in unsortedList.size - 1 downTo 0) {
-        sortedList.add(unsortedList[i])
-    }
-    return sortedList
+    return unsortedList.reversed()
 }
 
 /**
