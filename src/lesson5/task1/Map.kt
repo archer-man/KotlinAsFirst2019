@@ -191,7 +191,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
             A[organization] = changeNumber
             if (mapA = null) {
             newMap.put(organization, ((mapA.get(organization + ", ")) + number + mapA.getOrDefault(", " + organization, "")))*/
-            newMap[organization] = newMap.get(organization ?: "") + ", " + number// + mapA.getOrDefault(", " + organization, "")
+            newMap[organization] =
+                newMap.get(organization ?: "") + ", " + number// + mapA.getOrDefault(", " + organization, "")
             //}
             //}
         } else newMap.put(organization, number)
@@ -308,7 +309,17 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.isNotEmpty()) {
+        for (i in 0 until list.size) {
+            val desiredIndex = list.indexOf(number - list[i])
+            if (desiredIndex != -1 && i != desiredIndex) {
+                return Pair(i, desiredIndex)
+            }
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная
