@@ -348,6 +348,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         val weight = weightAndPrice.first
         if (weight <= capacity) {
             treasuresWithMaxPrice.add(name)
+            capacity -= weight
         }
     }
     return treasuresWithMaxPrice
