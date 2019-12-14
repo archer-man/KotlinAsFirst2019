@@ -113,14 +113,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    var mik = true
-    for (item in a) {
-        val keyOfA = item.value
-        for (product in b) {
-            mik = b.containsValue(keyOfA)
+    for ((keyA, valueA) in a) {
+        if (valueA != b[keyA]) {
+            return false
         }
     }
-    return mik
+    return true
 }
 
 /**
@@ -137,7 +135,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     val namesToRemove = mutableListOf<String>()
     for (entryA in a) {
         for (entryB in b) {
@@ -178,7 +176,29 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    /*for ((organization, number) in mapA){
+
+    }*/
+    //var newMap = mutableMapOf<String,String>()
+    val newMap = mapA.toMutableMap()
+    for ((organization, number) in mapB) {
+        //for ((organizationB, numberB) in mapB) {
+
+        if (number != mapA[organization] && mapA[organization] != null) {
+            /*var changeNumber: String? = A[organization]
+            changeNumber + B[organization]
+            A[organization] = changeNumber
+            if (mapA = null) {
+            newMap.put(organization, ((mapA.get(organization + ", ")) + number + mapA.getOrDefault(", " + organization, "")))*/
+            newMap[organization] = newMap.get(organization ?: "") + ", " + number// + mapA.getOrDefault(", " + organization, "")
+            //}
+            //}
+        } else newMap.put(organization, number)
+    }
+    return newMap
+}
+
 
 /**
  * Средняя
@@ -288,7 +308,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> =TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
 
 /**
  * Очень сложная
@@ -311,4 +331,4 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> =TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> =TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
