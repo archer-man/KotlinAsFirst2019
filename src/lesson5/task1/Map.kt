@@ -292,28 +292,58 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
     var mutableFriends = friends.toMutableMap()
-    var newMap = mutableMapOf<String, Set<String>>()
+    var newMap = mutableMapOf<String, MutableSet<String>>()
     var set = mutableSetOf<String>()
+    var namesToRemove = mutableListOf<String>()
     for ((name, friends) in mutableFriends) {
+        newMap.put(name, friends.toMutableSet())
         for (i in friends) {
-            if (mutableFriends.containsKey(i)){
-                var otherFriends = mutableFriends[i]!!.toSet()
+            if (mutableFriends.containsKey(i)) {
+                var otherFriends = mutableFriends[i]!!.toMutableSet()
                 //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
-                mutableFriends[name] = mutableFriends[name]!!.union(otherFriends)
+                newMap[name] = mutableFriends[name]!!.union(otherFriends).toMutableSet()
                 //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
             }
-            if (i !in mutableFriends.keys){
-                mutableFriends.put(i, setOf())
-            }
-            for ((name, friends) in mutableFriends){
-                if (name in friends){
-                    mutableFriends[name]=friends-name
-                }
+            if (i !in newMap.keys) {
+                newMap.put(i, mutableSetOf())
             }
         }
-
+        if (friends.size == 0) {
+            newMap.put(name, mutableSetOf())
+        }
     }
-    return mutableFriends
+    /*for ((name, friends) in mutableFriends) {
+        if (name in friends) {
+            mutableFriends[name] = friends - name
+        }
+    }*/
+    for ((name, friends) in newMap) {
+        if (name in friends) {
+            namesToRemove.add(name)
+        }
+        friends.removeAll(namesToRemove)
+        namesToRemove.clear()
+    }
+    return newMap
+    /*for (item in mutableFriends) {
+        var friends = item.value.toMutableSet()
+        mutableFriends[item.key] = (mutableFriends[item.key]!! - namesToRemove(item.key)).toMutableSet()
+    }*/
+    /*for ((name, friends) in mutableFriends) {
+        for (rName in namesToRemove){
+        if (name in friends) {
+            //mutableFriends[name] = friends - namesToRemove
+            (friends.remove(name)).toMutableSet()
+        }
+        }
+    }*/
+    /*for ((name, friends) in mutableFriends) {
+        for (item in friends) {
+            var friends = item.value.toMutableSet()
+            newMap.putAll(mutableFriends)
+            return mutableFriends.values.distinct()
+        }
+    }*/
 }
 
 /**
