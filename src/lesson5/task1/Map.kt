@@ -290,7 +290,31 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    var mutableFriends = friends.toMutableMap()
+    var newMap = mutableMapOf<String, Set<String>>()
+    var set = mutableSetOf<String>()
+    for ((name, friends) in mutableFriends) {
+        for (i in friends) {
+            if (mutableFriends.containsKey(i)){
+                var otherFriends = mutableFriends[i]!!.toSet()
+                //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
+                mutableFriends[name] = mutableFriends[name]!!.union(otherFriends)
+                //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
+            }
+            if (i !in mutableFriends.keys){
+                mutableFriends.put(i, setOf())
+            }
+            for ((name, friends) in mutableFriends){
+                if (name in friends){
+                    mutableFriends[name]=friends-name
+                }
+            }
+        }
+
+    }
+    return mutableFriends
+}
 
 /**
  * Сложная
@@ -342,15 +366,47 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+/*{
     var treasuresWithMaxPrice = mutableSetOf<String>()
+    var newMap = mutableMapOf<Int, Int>()
+    var weights = mutableListOf<>()
+    var prices = mutableListOf<>()
+    var treasuresSize = treasures.size
+    var sum = 0
+    var weights = mutableListOf<>()
+    var priceSize = treasures.values.size
     var newCapacity = capacity
-    for ((name, weightAndPrice) in treasures) {
+    for (item in treasures) {
+        val weight = item.value.first
+        val price = item.value.second
+        for (j in 1..weightSize){
+        if (weight(j-1) <= newCapacity)
+            {
+                newCapacity-=weight
+                sum += price
+            }
+        }
+    /*for ((i in 0 to n) {
+        for (w in 1 to w){
+            if (treasures[w].second <= newCapacity){
+                treasures[w]
+            }
+        }
         val weight = weightAndPrice.first
-        if (weight <= newCapacity) {
+        val price = weightAndPrice.second
+        for (weight in weightAndPrice){
+            if (items in )
+        }*/
+    }
+    /*for ((name, weightAndPrice) in treasures) {
+        val weight = weightAndPrice.first
+        val price = weightAndPrice.second
+        if (weight <= newCapacity && price = Math.max(weightAndPrice.second)) {
             treasuresWithMaxPrice.add(name)
             newCapacity -= weight
         }
-    }
+    }*/
     return treasuresWithMaxPrice
 }
+*/
