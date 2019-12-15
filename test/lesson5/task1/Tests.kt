@@ -263,12 +263,13 @@ class Tests {
         assertTrue(hasAnagrams(listOf("рот", "свет", "тор")))
         assertFalse(hasAnagrams(listOf("рот", "свет", "код", "дверь")))
         assertTrue(hasAnagrams(listOf("ae", "ae")))
+        assertFalse(hasAnagrams(listOf("")))
     }
 
     @Test
     @Tag("Hard")
     fun propagateHandshakes() {
-        /*assertEquals(
+        assertEquals(
             mapOf(
                 "Marat" to setOf("Mikhail", "Sveta"),
                 "Sveta" to setOf("Mikhail"),
@@ -307,7 +308,7 @@ class Tests {
                     "1" to setOf()
                 )
             )
-        )*/
+        )
         assertEquals(
             mapOf(
                 "0" to setOf(),
@@ -323,6 +324,23 @@ class Tests {
                     "2" to setOf(),
                     "3" to setOf("4","0"),
                     "4" to setOf("2")
+                )
+            )
+        )
+        assertEquals(
+            mapOf(
+                "2" to setOf("0","118", "1"),
+                "0" to setOf("118", "1"),
+                "3" to setOf(),
+                "118" to setOf("1"),
+                "1" to setOf()
+            ),
+            propagateHandshakes(
+                mapOf(
+                    "2" to setOf("0"),
+                    "0" to setOf("118"),
+                    "3" to setOf(),
+                    "118" to setOf("1")
                 )
             )
         )

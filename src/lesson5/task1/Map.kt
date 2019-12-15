@@ -225,8 +225,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
             counterMap[name] = (counterMap[name] ?: 0).plus(1)
         }
     }
-    for ((name, price) in map){
-        if (name in map){
+    for ((name, price) in map) {
+        if (name in map) {
             map[name] = map[name]!! / counterMap[name]!!
         }
     }
@@ -274,15 +274,15 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    var map = mutableMapOf<String,Int>()
-    val counterMap = mutableMapOf<String,Int>()
-    for (i in list){
-        if (list.contains(i)){
+    var map = mutableMapOf<String, Int>()
+    val counterMap = mutableMapOf<String, Int>()
+    for (i in list) {
+        if (list.contains(i)) {
             counterMap[i] = (counterMap[i] ?: 0).plus(1)
-            map [i] = counterMap[i]!!
+            map[i] = counterMap[i]!!
         }
     }
-    for (letter in map){
+    for (letter in map) {
         if (letter.value == 1) {
             map = (map - letter.key).toMutableMap()
         }
@@ -300,10 +300,12 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    for (i in words){
-        val reversedWord = i.reversed()
-        if (reversedWord in words) return true
-        else if (i in words-i) return true
+    if (words.size != 1) {
+        for (i in words) {
+            val reversedWord = i.reversed()
+            if (reversedWord in words) return true
+            else if (i in words - i) return true
+        }
     }
     return false
 }
@@ -347,28 +349,41 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
                 var otherFriends = newMap[i]!!.toMutableSet()
                 //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
                 newMap[name] = ((newMap[name]!!.union(otherFriends)) - name).toMutableSet()
+
                 //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
             }
-            if (i !in newMap.keys) {
-                newMap.put(i, mutableSetOf())
+            for ((name, friends) in mutableFriends) {
+                for (i in friends) {
+                    if (newMap.containsKey(i)) {
+                        var otherFriends = newMap[i]!!.toMutableSet()
+                        //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
+                        newMap[name] = ((newMap[name]!!.union(otherFriends)) - name).toMutableSet()
+
+                        //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
+                    }
+                    if (i !in newMap.keys) {
+                        newMap.put(i, mutableSetOf())
+                    }
+                }
+                if (friends.size == 0) {
+                    newMap.put(name, mutableSetOf())
+                }
             }
         }
-        if (friends.size == 0) {
-            newMap.put(name, mutableSetOf())
-        }
-    }
-    /*for ((name, friends) in mutableFriends) {
+        /*for ((name, friends) in mutableFriends) {
         if (name in friends) {
             mutableFriends[name] = friends - name
         }
     }*/
-    /*for ((name, friends) in newMap) {
+        /*for ((name, friends) in newMap) {
         if (name in friends) {
             namesToRemove.add(name)
         }
         friends.removeAll(namesToRemove)
         namesToRemove.clear()
     }*/
+
+    }
     return newMap
     /*for (item in mutableFriends) {
         var friends = item.value.toMutableSet()
