@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import lesson4.task1.mean
+
 /**
  * Пример
  *
@@ -211,7 +213,25 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val map = mutableMapOf<String, Double>()
+    val counterMap = mutableMapOf<String, Int>()
+    for ((name, price) in stockPrices) {
+        if (name in map) {
+            map[name] = (map[name] ?: 0.0).plus(price)
+            counterMap[name] = (counterMap[name] ?: 0).plus(1)
+        } else {
+            map[name] = price
+            counterMap[name] = (counterMap[name] ?: 0).plus(1)
+        }
+    }
+    for ((name, price) in map){
+        if (name in map){
+            map[name] = map[name]!! / counterMap[name]!!
+        }
+    }
+    return map
+}
 
 /**
  * Средняя
@@ -295,11 +315,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
     var newMap = mutableMapOf<String, MutableSet<String>>()
     var set = mutableSetOf<String>()
     var namesToRemove = mutableListOf<String>()
-    for ((name, friends) in mutableFriends) {
+    for ((name, friends) in friends) {
         newMap.put(name, friends.toMutableSet())
+    }
+    for ((name, friends) in mutableFriends) {
+        //newMap.put(name, friends.toMutableSet())
         for (i in friends) {
             if (mutableFriends.containsKey(i)) {
-                var otherFriends = mutableFriends[i]!!.toMutableSet()
+                var otherFriends = newMap[i]!!.toMutableSet()
                 //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
                 newMap[name] = mutableFriends[name]!!.union(otherFriends).toMutableSet()
                 //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
