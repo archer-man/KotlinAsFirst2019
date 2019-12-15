@@ -284,7 +284,13 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    for (i in words){
+        val reversedWord = i.reversed()
+        return reversedWord in words
+    }
+    return false
+}
 
 /**
  * Сложная
