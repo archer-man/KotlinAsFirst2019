@@ -346,7 +346,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             if (mutableFriends.containsKey(i)) {
                 var otherFriends = newMap[i]!!.toMutableSet()
                 //mutableFriends[name] = (listOfFriends.toMutableSet() + otherFriends) as MutableSet<String>
-                newMap[name] = mutableFriends[name]!!.union(otherFriends).toMutableSet()
+                newMap[name] = ((mutableFriends[name]!!.union(otherFriends)) - name).toMutableSet()
                 //mutableFriends[name] = mutableFriends[name]!!+ otherFriends
             }
             if (i !in newMap.keys) {
@@ -362,13 +362,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             mutableFriends[name] = friends - name
         }
     }*/
-    for ((name, friends) in newMap) {
+    /*for ((name, friends) in newMap) {
         if (name in friends) {
             namesToRemove.add(name)
         }
         friends.removeAll(namesToRemove)
         namesToRemove.clear()
-    }
+    }*/
     return newMap
     /*for (item in mutableFriends) {
         var friends = item.value.toMutableSet()
