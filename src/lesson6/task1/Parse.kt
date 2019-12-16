@@ -73,12 +73,12 @@ fun main() {
  */
 fun dateStrToDigit(str: String): String {
     val date = str.split(" ")
-    var monthDigit = 0
+    val monthDigit: Int
     try {
         for (part in date) {
-            var day = date[0].toInt()
-            var month = date[1]
-            var year = date[2].toInt()
+            val day = date[0].toInt()
+            val month = date[1]
+            val year = date[2].toInt()
             when {
                 month == "января" -> monthDigit = 1
                 month == "февраля" -> monthDigit = 2
@@ -116,13 +116,13 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val date = digital.split(".")
-    var monthName: String
+    val monthName: String
     if (date.size == 3) {
         try {
             for (part in date) {
-                var day = date[0].toInt()
-                var month = date[1].toInt()
-                var year = date[2].toInt()
+                val day = date[0].toInt()
+                val month = date[1].toInt()
+                val year = date[2].toInt()
                 when (month) {
                     1 -> monthName = "января"
                     2 -> monthName = "февраля"
@@ -163,7 +163,34 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String = TODO()/*{
+    val normalPhoneNumber = phone.split(" ")
+    var result = ""
+    var plusPresence=""
+    val excludedCharacters = mutableListOf<String>("+", "-", "(", ")", "()", " ")
+    for (part in normalPhoneNumber) {
+        //for (i in 0 until excludedCharacters.size) {
+        val first = normalPhoneNumber[1].toString()
+        if (part == "+"){
+            //result += "+"
+plusPresence="+"
+        }
+            if (!excludedCharacters.contains(part)) {
+                result += part
+            //}
+            /*if (part != excludedCharacters[i]) {
+                result += part
+            }*/
+        } /*else if (normalPhoneNumber.contains("_"))
+            {
+                return ""
+            }*/
+    }
+    //return result
+    result.toLong()
+    result.toString()
+    return String.format("%s%s", plusPresence, result)
+}*/
 
 /**
  * Средняя
@@ -175,7 +202,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val jumpHeights = jumps.split(" ")
+    var specialChars = mutableListOf<String>("-", "%")
+    var onlyHeights = mutableListOf<Int>()
+    try {
+        for (height in jumpHeights) {
+            if (height.toIntOrNull() in 0..999) {
+                onlyHeights.add(height.toInt())
+            } else if (height in specialChars) continue
+            else return -1
+        }
+    } catch (e: Exception) {
+        return -1
+    }
+    return onlyHeights.max() ?: -1
+}
 
 /**
  * Сложная
