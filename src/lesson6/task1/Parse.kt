@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -69,7 +71,38 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val date = str.split(" ")
+    var monthDigit = 0
+    try {
+        for (part in date) {
+            var day = date[0].toInt()
+            var month = date[1]
+            var year = date[2].toInt()
+            when {
+                month == "января" -> monthDigit = 1
+                month == "февраля" -> monthDigit = 2
+                month == "марта" -> monthDigit = 3
+                month == "апреля" -> monthDigit = 4
+                month == "мая" -> monthDigit = 5
+                month == "июня" -> monthDigit = 6
+                month == "июля" -> monthDigit = 7
+                month == "августа" -> monthDigit = 8
+                month == "сентября" -> monthDigit = 9
+                month == "октября" -> monthDigit = 10
+                month == "ноября" -> monthDigit = 11
+                month == "декабря" -> monthDigit = 12
+                else -> return ("")
+            }
+            if (day <= daysInMonth(monthDigit, year)) {
+                return String.format("%02d.%02d.%04d", day, monthDigit, year)
+            } else return ("")
+        }
+    } catch (e: Exception) {
+        return ("")
+    }
+    return ("")
+}
 
 /**
  * Средняя
@@ -81,7 +114,40 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val date = digital.split(".")
+    var monthName: String
+    if (date.size == 3) {
+        try {
+            for (part in date) {
+                var day = date[0].toInt()
+                var month = date[1].toInt()
+                var year = date[2].toInt()
+                when (month) {
+                    1 -> monthName = "января"
+                    2 -> monthName = "февраля"
+                    3 -> monthName = "марта"
+                    4 -> monthName = "апреля"
+                    5 -> monthName = "мая"
+                    6 -> monthName = "июня"
+                    7 -> monthName = "июля"
+                    8 -> monthName = "августа"
+                    9 -> monthName = "сентября"
+                    10 -> monthName = "октября"
+                    11 -> monthName = "ноября"
+                    12 -> monthName = "декабря"
+                    else -> return ("")
+                }
+                if (day <= daysInMonth(month, year)) {
+                    return String.format("%d %s %d", day, monthName, year)
+                } else return ("")
+            }
+        } catch (e: Exception) {
+            return ("")
+        }
+    }
+    return ("")
+}
 
 /**
  * Средняя
