@@ -204,8 +204,8 @@ plusPresence="+"
  */
 fun bestLongJump(jumps: String): Int {
     val jumpHeights = jumps.split(" ")
-    var specialChars = mutableListOf<String>("-", "%")
-    var onlyHeights = mutableListOf<Int>()
+    val specialChars = mutableListOf<String>("-", "%")
+    val onlyHeights = mutableListOf<Int>()
     try {
         for (height in jumpHeights) {
             if (height.toIntOrNull() in 0..999) {
@@ -232,9 +232,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val jumpHeights = jumps.split(" ")
-    //var specialChars = mutableListOf("-", "%", "+")
-    var onlyHeights = mutableListOf<Int>()
-    //var set = mutableListOf<String>()
+    val onlyHeights = mutableListOf<Int>()
     var heightToCheck = 0
     val characters = Regex(pattern = "\\+")
     try {
@@ -246,9 +244,6 @@ fun bestHighJump(jumps: String): Int {
                 onlyHeights.remove(heightToCheck)
             } else continue
         }
-        /*for (i in 0 until onlyHeights.size){
-            if (onlyHeights[i])
-        }*/
     } catch (e: Exception) {
         return -1
     }
@@ -293,22 +288,12 @@ fun plusMinus(expression: String): Int = TODO()/*{
  */
 fun firstDuplicateIndex(str: String): Int {
     val words = str.split(" ")
-    //val characters = Regex("\\+-")
-    //var number = mutableListOf<Int>()
-    //var sym = mutableListOf<String>()
-    //var firstWord = words[0]
-    //var previous=""
-    var k = 0
+    var indexPointer = 0
     try {
-        /*for (part in words) {
-            if (previous != part || part ==firstWord) {
-                previous = part
-            } else return str.indexOf(previous)*/
-        //else return -1
         for (i in 0 until words.size) {
             if (words[i].toLowerCase() == words[i + 1].toLowerCase()) {
-                return str.indexOf(words[i], startIndex = (k))
-            } else k += 2
+                return str.indexOf(words[i], startIndex = (indexPointer))
+            } else indexPointer += 2
         }
     } catch (e: Exception) {
         return -1
