@@ -230,7 +230,30 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val jumpHeights = jumps.split(" ")
+    //var specialChars = mutableListOf("-", "%", "+")
+    var onlyHeights = mutableListOf<Int>()
+    //var set = mutableListOf<String>()
+    var heightToCheck = 0
+    val characters = Regex(pattern = "\\+")
+    try {
+        for (height in jumpHeights) {
+            if (height.toIntOrNull() in 0..999) {
+                onlyHeights.add(height.toInt())
+                heightToCheck = height.toInt()
+            } else if (characters.find(height) == null) {
+                onlyHeights.remove(heightToCheck)
+            } else continue
+        }
+        /*for (i in 0 until onlyHeights.size){
+            if (onlyHeights[i])
+        }*/
+    } catch (e: Exception) {
+        return -1
+    }
+    return onlyHeights.max() ?: -1
+}
 
 /**
  * Сложная
