@@ -264,7 +264,23 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int = TODO()/*{
+    val symbols = expression.split(" ")
+    val characters = Regex("\\+-")
+    var number = mutableListOf<Int>()
+    var sym = mutableListOf<String>()
+    try {
+        for (part in symbols) {
+            if (part.toIntOrNull()!= null) {
+                number.add(part.toInt())
+            } else if (characters.find(part) == null) sym.add(part)
+            else return -1
+        }
+    } catch (e: Exception) {
+        return -1
+    }
+    return number.first()
+}*/
 
 /**
  * Сложная
@@ -275,7 +291,30 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val words = str.split(" ")
+    //val characters = Regex("\\+-")
+    //var number = mutableListOf<Int>()
+    //var sym = mutableListOf<String>()
+    //var firstWord = words[0]
+    //var previous=""
+    var k = 0
+    try {
+        /*for (part in words) {
+            if (previous != part || part ==firstWord) {
+                previous = part
+            } else return str.indexOf(previous)*/
+        //else return -1
+        for (i in 0 until words.size) {
+            if (words[i].toLowerCase() == words[i + 1].toLowerCase()) {
+                return str.indexOf(words[i], startIndex = (k))
+            } else k += 2
+        }
+    } catch (e: Exception) {
+        return -1
+    }
+    return -1
+}
 
 /**
  * Сложная
