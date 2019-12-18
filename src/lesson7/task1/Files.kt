@@ -58,7 +58,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val map = mutableMapOf<String, Int>()
     val list = substrings.toMutableList()//.map { it.toLowerCase() }
     //list = list.map{it.toLowerCase()}
-    var currentLineLength = 0
     for (line in File(inputName).readLines()) {
         for (word in line.split(Regex("\\s+"))) {
             //var smallWord=word.toLowerCase()
@@ -72,28 +71,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 //counter++
                 map.put(list[i], counter)
             }else if (!map.contains(list[i])) map.put(list[i], 0)
-                /*if (currentLineLength > 0) {
-                outputStream.newLine()
-                currentLineLength = 0
-            }*/
-                //continue
-                /*}
-        }
-        for (word in line.split(" ")) {
-            if (currentLineLength > 0) {
-                if (word.length + currentLineLength >= lineLength) {
-                    outputStream.newLine()
-                    currentLineLength = 0
-                } else {
-                    outputStream.write(" ")
-                    currentLineLength++
-                }
-            }
-            outputStream.write(word)
-            currentLineLength += word.length
-        }
-    }
-    outputStream.close()*/
             }
         }
     }
