@@ -53,7 +53,52 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    //val outputStream = File(outputName).bufferedWriter()
+    val map = mutableMapOf<String, Int>()
+    val list = substrings.toMutableList()//.map { it.toLowerCase() }
+    //list = list.map{it.toLowerCase()}
+    var currentLineLength = 0
+    for (line in File(inputName).readLines()) {
+        for (word in line.split(Regex("\\s+"))) {
+            //var smallWord=word.toLowerCase()
+            //if (list.contains(smallWord)) {
+            for (i in 0 until list.size){
+            if (word.contains(list[i], ignoreCase = true)/*word.count{word.contains(list[i], ignoreCase = true)} > 0*/) {
+                //val count = word.count{ word.contains(it, ignoreCase = true)}
+                val w = word.count{list[i].contains(it, ignoreCase = true)}
+                var counter = map[list[i]] ?: 0
+                if (w==2)counter += w else if (list[i].length ==2 && w ==3 ) counter += 2  else counter++
+                //counter++
+                map.put(list[i], counter)
+            }else if (!map.contains(list[i])) map.put(list[i], 0)
+                /*if (currentLineLength > 0) {
+                outputStream.newLine()
+                currentLineLength = 0
+            }*/
+                //continue
+                /*}
+        }
+        for (word in line.split(" ")) {
+            if (currentLineLength > 0) {
+                if (word.length + currentLineLength >= lineLength) {
+                    outputStream.newLine()
+                    currentLineLength = 0
+                } else {
+                    outputStream.write(" ")
+                    currentLineLength++
+                }
+            }
+            outputStream.write(word)
+            currentLineLength += word.length
+        }
+    }
+    outputStream.close()*/
+            }
+        }
+    }
+    return map
+}
 
 
 /**
@@ -429,4 +474,3 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
-
