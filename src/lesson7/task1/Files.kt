@@ -59,7 +59,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val list = substrings.toMutableList()//.map { it.toLowerCase() }
     //list = list.map{it.toLowerCase()}
     for (line in File(inputName).readLines()) {
-        for (word in line.split(Regex("\\s+"))) {
+        for (word in line.split(Regex(/*"\\s+"|\\n*/"\\s+|\\n"))) {
             //var smallWord=word.toLowerCase()
             //if (list.contains(smallWord)) {
             for (i in 0 until list.size){
@@ -69,8 +69,9 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 var counter = map[list[i]] ?: 0
                 if (list.size ==1 && w ==2) counter = 1
                 //if (w==2 && list[i].length !=1)counter += w
-                else if (w==2 && list[i].length !=1)counter += w
-                else if (list[i].length ==2 && w ==3 ) counter += 2
+                else if (w==2 && /*list[i].length*/list.size !=1)counter += w
+                else if (/*list[i].length*/list.size ==2 && w ==3 ) counter += 2
+                else if (/*list[i].length*/list.size ==2 && w ==4 ) counter += 2
                 //else if (list[i].length ==1 && w ==2) counter = 1
                 else counter++
                 //counter++
