@@ -67,7 +67,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 //val count = word.count{ word.contains(it, ignoreCase = true)}
                 val w = word.count{list[i].contains(it, ignoreCase = true)}
                 var counter = map[list[i]] ?: 0
-                if (w==2)counter += w else if (list[i].length ==2 && w ==3 ) counter += 2  else counter++
+                if (list.size ==1 && w ==2) counter = 1
+                //if (w==2 && list[i].length !=1)counter += w
+                else if (w==2 && list[i].length !=1)counter += w
+                else if (list[i].length ==2 && w ==3 ) counter += 2
+                //else if (list[i].length ==1 && w ==2) counter = 1
+                else counter++
                 //counter++
                 map.put(list[i], counter)
             }else if (!map.contains(list[i])) map.put(list[i], 0)
