@@ -63,7 +63,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 if (chunkOfText.contains(wordToFind, ignoreCase = true)) {
                     wordCounter++
                 }
-                if (!map.contains(wordToFind)) map.put(wordToFind, 0) else map.put(wordToFind, wordCounter)
+                //if (!map.contains(wordToFind)) map.put(wordToFind, 0) else map.put(wordToFind, wordCounter)
+                if (!map.contains(wordToFind)) map[wordToFind] = 0 else map[wordToFind] = wordCounter
             }
         }
     }
