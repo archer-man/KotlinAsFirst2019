@@ -54,35 +54,21 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    //val outputStream = File(outputName).bufferedWriter()
     val map = mutableMapOf<String, Int>()
-    val list = substrings.toMutableList()//.map { it.toLowerCase() }
-    //list = list.map{it.toLowerCase()}
-    for (line in File(inputName).readLines()) {
-        for (word in line.split(Regex(/*"\\s+"|\\n*/"\\s+|\\n"))) {
-            //var smallWord=word.toLowerCase()
-            //if (list.contains(smallWord)) {
-            for (i in 0 until list.size){
-            if (word.contains(list[i], ignoreCase = true)/*word.count{word.contains(list[i], ignoreCase = true)} > 0*/) {
-                //val count = word.count{ word.contains(it, ignoreCase = true)}
-                val w = word.count{list[i].contains(it, ignoreCase = true)}
-                var counter = map[list[i]] ?: 0
-                if (list.size ==1 && w ==2) counter = 1
-                //if (w==2 && list[i].length !=1)counter += w
-                else if (w==2 && /*list[i].length*/list.size !=1)counter += w
-                else if (/*list[i].length*/list.size ==2 && w ==3 ) counter += 2
-                else if (/*list[i].length*/list.size ==2 && w ==4 ) counter += 2
-                //else if (list[i].length ==1 && w ==2) counter = 1
-                else counter++
-                //counter++
-                map.put(list[i], counter)
-            }else if (!map.contains(list[i])) map.put(list[i], 0)
+    val listOfStrings = File(inputName).readLines()
+    for (wordToFind in substrings) {
+        var wordCounter = 0
+        for (separateString in listOfStrings) {
+            for (chunkOfText in separateString.windowed(wordToFind.length)) {
+                if (chunkOfText.contains(wordToFind, ignoreCase = true)) {
+                    wordCounter++
+                }
+                if (!map.contains(wordToFind)) map.put(wordToFind, 0) else map.put(wordToFind, wordCounter)
             }
         }
     }
     return map
 }
-
 
 /**
  * Средняя
