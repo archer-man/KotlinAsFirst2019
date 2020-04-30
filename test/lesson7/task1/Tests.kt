@@ -74,13 +74,16 @@ Basic, Ruby, Swift.
         )
         assertEquals(
             mapOf("аб" to 1),
-            countSubstrings("input/substrings_in3.txt", listOf("аб")))
+            countSubstrings("input/substrings_in3.txt", listOf("аб"))
+        )
         assertEquals(
             mapOf("ба" to 2, "аб" to 0),
-            countSubstrings("input/substrings_in4.txt", listOf("ба", "аб")))
+            countSubstrings("input/substrings_in4.txt", listOf("ба", "аб"))
+        )
         assertEquals(
             mapOf("аб" to 2, "ба" to 0),
-            countSubstrings("input/substrings_in5.txt", listOf("аб", "ба")))
+            countSubstrings("input/substrings_in5.txt", listOf("аб", "ба"))
+        )
     }
 
     @Test
@@ -439,4 +442,9 @@ Basic, Ruby, Swift.
 
         File("temp.txt").delete()
     }
+
+    /*@Test
+    fun foo() {
+        assertEquals("Л. Хэмилтон, 13", foo("input/formula.txt"))
+    }*/
 }

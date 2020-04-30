@@ -53,7 +53,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> =TODO()/*{
     val map = mutableMapOf<String, Int>()
     val listOfStrings = File(inputName).readLines()
     for (wordToFind in substrings) {
@@ -68,7 +68,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         }
     }
     return map
-}
+}*/
 
 /**
  * Средняя
@@ -443,3 +443,47 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+
+/*fun foo(inputName: String): Any {
+    val listOfStrings = File(inputName).readLines()
+    val list = mutableListOf<String>()
+    var maxScore = 0
+    var maxName = ""
+    val map = mutableMapOf<String, Int>()
+    val listofNames = mutableListOf<String>()
+    try {
+        for (string in listOfStrings) {
+            if (string.contains("Гран-при") || string.isEmpty())
+            {
+                listofNames.clear()
+                continue
+            }
+            for (chunk in string.split(", ")) {
+
+                    list.add(chunk)
+            }
+            val name = list[0]
+            val score = list[2].toInt()
+            if (listofNames.contains(name)) throw IllegalArgumentException()
+            listofNames.add(name)
+            if (map.containsKey(name)) {
+                map[name] = map[name]!! + score
+            }
+            if (name !in map) {
+                map.put(name, score)
+            }
+            list.clear()
+        }
+        for ((name, score) in map) {
+            val temp = score
+            if (temp > maxScore) {
+                maxScore = score
+                maxName = name
+            }
+        }
+        return (maxName + ", " + maxScore)
+    }
+    catch (e: Exception) {
+        throw IllegalArgumentException()
+    }
+}*/
