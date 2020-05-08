@@ -87,6 +87,21 @@ class TrainTimeTableTest {
 
     @Test
     @Tag("Hard")
+    fun trains2() {
+        val ttt = TrainTimeTable("Москва")
+        assertTrue(ttt.addTrain("N1", Time(6, 0), Stop("Тверь", Time(7, 6))))
+        assertTrue(ttt.addTrain("N2", Time(6, 30), Stop("Тверь", Time(6, 45))))
+        assertTrue(ttt.addTrain("N3", Time(7, 15), Stop("Тверь", Time(8, 10))))
+        assertTrue(ttt.addStop("N1", Stop("Химки", Time(6, 52))))
+        assertTrue(ttt.addStop("N2", Stop("Валдай", Time(6, 43))))
+        assertTrue(ttt.addStop("N3", Stop("Романово", Time(8, 0))))
+        assertEquals(
+            listOf<Train>(), ttt.trains(Time(8, 30), "Тверь")
+        )
+    }
+
+    @Test
+    @Tag("Hard")
     fun testEquals() {
         val ttt1 = TrainTimeTable("СПб")
         assertTrue(ttt1.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
@@ -100,4 +115,39 @@ class TrainTimeTableTest {
         assertTrue(ttt2.addStop("N2", Stop("Купчино", Time(6, 31))))
         assertTrue(ttt1 == ttt2)
     }
+
+    @Test
+    @Tag("Hard")
+    fun testEquals2() {
+        val ttt1 = TrainTimeTable("Москва")
+        assertTrue(ttt1.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt1.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt1.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertTrue(ttt1.addStop("N2", Stop("Шушары", Time(6, 35))))
+        val ttt2 = TrainTimeTable("СПб")
+        assertTrue(ttt2.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt2.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt2.addStop("N2", Stop("Шушары", Time(6, 35))))
+        assertTrue(ttt2.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertFalse(ttt1 == ttt2)
+    }
+
+    @Test
+    @Tag("Hard")
+    fun testEquals3() {
+        val ttt1 = TrainTimeTable("СПб")
+        assertTrue(ttt1.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt1.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt1.addTrain("N3", Time(6, 19), Stop("Ладога", Time(8, 45))))
+        assertTrue(ttt1.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertTrue(ttt1.addStop("N2", Stop("Шушары", Time(6, 35))))
+        assertTrue(ttt1.addStop("N3", Stop("Пушкин", Time(6, 35))))
+        val ttt2 = TrainTimeTable("СПб")
+        assertTrue(ttt2.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt2.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt2.addStop("N2", Stop("Шушары", Time(6, 35))))
+        assertTrue(ttt2.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertFalse(ttt1 == ttt2)
+    }
+
 }
