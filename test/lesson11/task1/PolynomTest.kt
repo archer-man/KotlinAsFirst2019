@@ -23,6 +23,13 @@ class PolynomTest {
 
     @Test
     @Tag("Easy")
+    fun getValue2() {
+        val p = Polynom(0.0, 0.0, 5.0, 3.0)
+        assertEquals(33.0, p.getValue(6.0), 1e-10)
+    }
+
+    @Test
+    @Tag("Easy")
     fun degree() {
         val p = Polynom(1.0, 1.0, 1.0)
         assertEquals(2, p.degree())
@@ -86,7 +93,7 @@ class PolynomTest {
         val p1 = Polynom(1.0, -2.0, -1.0, 4.0)
         val p2 = Polynom(1.0, 3.0, 2.0)
         val r = Polynom(1.0, -5.0)
-        val q = Polynom(12.0, 16.0)
+        val q = Polynom(12.0, 14.0) //replaced 16.0 with 14.0
         assertApproxEquals(q, p1 % p2, 1e-10)
         assertApproxEquals(p1, p2 * r + q, 1e-10)
     }
