@@ -2,9 +2,6 @@
 
 package lesson12.task1
 
-import kotlinx.html.InputType
-import ru.spbstu.kotlin.typeclass.kind
-
 /**
  * Класс "расписание поездов".
  *
@@ -19,6 +16,9 @@ import ru.spbstu.kotlin.typeclass.kind
  * В конструктор передаётся название станции отправления для данного расписания.
  */
 class TrainTimeTable(val baseStationName: String) {
+
+    var trainTable = mutableListOf<Train>()
+
     /**
      * Добавить новый поезд.
      *
@@ -29,34 +29,16 @@ class TrainTimeTable(val baseStationName: String) {
      * @param destination конечная станция
      * @return true, если поезд успешно добавлен, false, если такой поезд уже есть
      */
-
-    var trainTable = mutableListOf<Train>()
-
     fun addTrain(train: String, depart: Time, destination: Stop): Boolean {
-        if (trainTable.isNotEmpty()) {
-            val namesOfTrains = mutableListOf<String>()
-            for ((name) in trainTable) {
-                namesOfTrains.add(name)
-            }
-            if (!namesOfTrains.contains(train)) {
-                val customList = mutableListOf<Stop>()
-                customList.add(Stop(baseStationName, depart))
-                customList += destination
-                val element = Train(train, customList)
-                trainTable.add(element)
-                return true
-            }
-
+        for ((name) in this.trainTable) {
+            if (name == train) return false
         }
-        if (trainTable.isEmpty()) {
-            val customList = mutableListOf<Stop>()
-            customList.add(Stop(baseStationName, depart))
-            customList += destination
-            val element = Train(train, customList)
-            trainTable.add(element)
-            return true
-        }
-        return false
+        val customList = mutableListOf<Stop>()
+        customList.add(Stop(baseStationName, depart))
+        customList += destination
+        val element = Train(train, customList)
+        trainTable.add(element)
+        return true
     }
 
     /**
@@ -67,16 +49,7 @@ class TrainTimeTable(val baseStationName: String) {
      * @param train название поезда
      * @return true, если поезд успешно удалён, false, если такой поезд не существует
      */
-    fun removeTrain(train: String): Boolean {
-        for ((name) in trainTable) {
-            if (name == train) {
-                trainTable.removeAll { it.name == train }
-                return true
-            }
-        }
-        return false
-    }
-
+    fun removeTrain(train: String): Boolean = trainTable.removeAll { it.name == train }
 
     /**
      * Добавить/изменить начальную, промежуточную или конечную остановку поезду.
@@ -98,16 +71,16 @@ class TrainTimeTable(val baseStationName: String) {
      */
     fun addStop(train: String, stop: Stop): Boolean {
         var index = -1
-        for (i in trainTable) {
+        for ((nameOfTrain, stops) in trainTable) {
             index += 1
-            if (train == i.name) {
+            if (train == nameOfTrain) {
                 val namesOfStops = mutableListOf<String>()
-                for (stopItem in i.stops) {
-                    namesOfStops.add(stopItem.name)
-                    if (stop.time == stopItem.time && (stop.name != namesOfStops[0] && stop.name != namesOfStops[namesOfStops.lastIndex]) && stop.name != stopItem.name) throw IllegalArgumentException()
+                for ((name, time) in stops) {
+                    namesOfStops.add(name)
+                    if (stop.time == time && (stop.name != namesOfStops[0] && stop.name != namesOfStops[namesOfStops.lastIndex]) && stop.name != name) throw IllegalArgumentException()
                 }
-                if (stop.name !in namesOfStops && (stop.time > i.stops[0].time && stop.time < i.stops[namesOfStops.lastIndex].time)) {
-                    val tmp = i.stops.plus(stop).sortedBy { it.time }
+                if (stop.name !in namesOfStops && (stop.time > stops[0].time && stop.time < stops[namesOfStops.lastIndex].time)) {
+                    val tmp = stops.plus(stop).sortedBy { it.time }
                     trainTable[index] = Train(train, tmp)
                     return true
                 }
@@ -137,16 +110,16 @@ class TrainTimeTable(val baseStationName: String) {
      */
     fun removeStop(train: String, stopName: String): Boolean {
         var index = -1
-        for (i in trainTable) {
+        for ((nameOfTrain, stops) in trainTable) {
             index += 1
-            if (train == i.name) {
+            if (train == nameOfTrain) {
                 val namesOfStops = mutableListOf<String>()
-                for (stopItem in i.stops) {
-                    namesOfStops.add(stopItem.name)
+                for ((nameOfStop) in stops) {
+                    namesOfStops.add(nameOfStop)
                 }
                 return if (stopName in namesOfStops && stopName != namesOfStops[0] && stopName != namesOfStops[namesOfStops.lastIndex]) {
                     val indexOfStop = namesOfStops.indexOf(stopName)
-                    val tmp = i.stops - i.stops[indexOfStop]
+                    val tmp = stops - stops[indexOfStop]
                     trainTable[index] = Train(train, tmp)
                     true
                 } else false
@@ -172,7 +145,7 @@ class TrainTimeTable(val baseStationName: String) {
         val sortedTrainsList = mutableListOf<Train>()
         var index = -1
         for (train in trainTable) {
-            index += 1
+            index++
             val namesOfStops = mutableListOf<String>()
             for ((name) in train.stops) {
                 namesOfStops.add(name)
@@ -198,6 +171,10 @@ class TrainTimeTable(val baseStationName: String) {
             if (other.trainTable.contains(train)) continue else return false
         }
         return true
+    }
+
+    override fun hashCode(): Int {
+        return trainTable.hashCode()
     }
 
 }

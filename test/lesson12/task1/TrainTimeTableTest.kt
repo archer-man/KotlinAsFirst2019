@@ -1,5 +1,6 @@
 package lesson12.task1
 
+import lesson11.task1.Polynom
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -150,4 +151,19 @@ class TrainTimeTableTest {
         assertFalse(ttt1 == ttt2)
     }
 
+    @Test
+    @Tag("Normal")
+    fun hashCodeTest() {
+        val ttt1 = TrainTimeTable("СПб")
+        assertTrue(ttt1.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt1.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt1.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertTrue(ttt1.addStop("N2", Stop("Шушары", Time(6, 35))))
+        val ttt2 = TrainTimeTable("СПб")
+        assertTrue(ttt2.addTrain("N1", Time(6, 35), Stop("Пушкин", Time(7, 4))))
+        assertTrue(ttt2.addTrain("N2", Time(6, 18), Stop("Пушкин", Time(6, 45))))
+        assertTrue(ttt2.addStop("N2", Stop("Купчино", Time(6, 31))))
+        assertTrue(ttt2.addStop("N2", Stop("Шушары", Time(6, 35))))
+        assertEquals(ttt1.hashCode(), ttt2.hashCode())
+    }
 }

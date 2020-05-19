@@ -38,7 +38,7 @@ class Polynom(vararg coeffs: Double) {
         var coeffPower = coeffsArray.size
         for (coefficient in coeffsArray) {
             coeffPower -= 1
-            result = result + x.pow(coeffPower) * coefficient
+            result += x.pow(coeffPower) * coefficient
         }
         return result
     }
@@ -51,8 +51,8 @@ class Polynom(vararg coeffs: Double) {
      * степень 0x^2+0x+2 также равна 0.
      */
     fun degree(): Int {
-        for (coefficient in coeffsArray) {
-            if (coefficient != 0.0) return (coeffsArray.size - coeffsArray.indexOf(coefficient) - 1) else continue
+        for ((index, value) in coeffsArray.withIndex()) {
+            if (value != 0.0) return (coeffsArray.size - index - 1) else continue
         }
         return 0
     }
@@ -61,46 +61,21 @@ class Polynom(vararg coeffs: Double) {
      * Сложение
      */
     operator fun plus(other: Polynom): Polynom {
-        val list = mutableListOf<Double>()
-        var index = -1
-        var changeOfObjectIndex = -1
-        val maxItem: Polynom
-        val minItem: Polynom
-        if (minOf(this.coeffsArray.size, other.coeffsArray.size) == this.coeffsArray.size) {
-            list.addAll(this.coeffsArray)
-            maxItem = other
-            minItem = this
-        } else {
-            maxItem = this
-            minItem = other
-            list.addAll(other.coeffsArray)
+        val summand1 = this.flattener(other).first
+        val summand2 = this.flattener(other).second
+        val answer = this.flattener(other).third
+        for (i in 0 until summand1.coeffsArray.size) {
+            answer.coeffsArray[i] = summand1.coeffsArray[i] + summand2.coeffsArray[i]
         }
-        while (list.size != maxItem.coeffsArray.size) {
-            index++
-            changeOfObjectIndex++
-            list.add(index, 0.0)
-            minItem.coeffsArray.add(index, 0.0)
-        }
-        for (i in 0 until list.size) {
-            list[i] = this.coeffsArray[i] + other.coeffsArray[i]
-        }
-        val instance = Polynom()
-        instance.coeffsArray.addAll(list)
-        while (changeOfObjectIndex != -1) {
-            minItem.coeffsArray.removeAt(changeOfObjectIndex)
-            changeOfObjectIndex -= 1
-        }
-        return instance
+        return answer
     }
 
     /**
      * Смена знака (при всех слагаемых)
      */
     operator fun unaryMinus(): Polynom {
-        var index = -1
-        for (coefficient in this.coeffsArray) {
-            index++
-            this.coeffsArray[index] = coefficient * -1
+        for ((index, value) in this.coeffsArray.withIndex()) {
+            this.coeffsArray[index] = value * -1
         }
         return this
     }
@@ -109,25 +84,10 @@ class Polynom(vararg coeffs: Double) {
      * Вычитание
      */
     operator fun minus(other: Polynom): Polynom {
-        val minuend = Polynom()
-        minuend.coeffsArray.addAll(this.coeffsArray)
-        val subtrahend = Polynom()
-        subtrahend.coeffsArray.addAll(other.coeffsArray)
-        val answer = Polynom()
-        var index = 0
-        var changeWasTaken = 0
-        while (minuend.coeffsArray.size != subtrahend.coeffsArray.size) {
-            if (minOf(minuend.coeffsArray.size, subtrahend.coeffsArray.size) == minuend.coeffsArray.size) {
-                minuend.coeffsArray.add(index, 0.0)
-                changeWasTaken++
-            } else if (minOf(minuend.coeffsArray.size, subtrahend.coeffsArray.size) == subtrahend.coeffsArray.size) {
-                subtrahend.coeffsArray.add(index, 0.0)
-            }
-            index++
-            changeWasTaken++
-        }
-        answer.coeffsArray.addAll(minuend.coeffsArray)
-        for (i in 0 until maxOf(minuend.coeffsArray.size, subtrahend.coeffsArray.size)) {
+        val minuend = this.flattener(other).first
+        val subtrahend = this.flattener(other).second
+        val answer = this.flattener(other).third
+        for (i in 0 until answer.coeffsArray.size) {
             answer.coeffsArray[i] = minuend.coeffsArray[i] - subtrahend.coeffsArray[i]
         }
         return answer
@@ -137,24 +97,20 @@ class Polynom(vararg coeffs: Double) {
      * Умножение
      */
     operator fun times(other: Polynom): Polynom {
-        val maxItem: Polynom
-        val minItem: Polynom
-        var changeOfObjectIndex = -1
-        val list = mutableListOf<Double>()
+        val maxItem = Polynom()
+        val minItem = Polynom()
         val maxPower = maxOf(this.coeffsArray.size, other.coeffsArray.size) - 1
         var indexCheck = 0
-
+        val answer = Polynom()
         if (minOf(this.coeffsArray.size, other.coeffsArray.size) == this.coeffsArray.size) {
-            maxItem = other
-            minItem = this
-            list.addAll(maxItem.coeffsArray)
-            list.fill(0.0)
+            maxItem.coeffsArray.addAll(other.coeffsArray)
+            minItem.coeffsArray.addAll(this.coeffsArray)
         } else {
-            maxItem = this
-            minItem = other
-            list.addAll(maxItem.coeffsArray)
-            list.fill(0.0)
+            maxItem.coeffsArray.addAll(this.coeffsArray)
+            minItem.coeffsArray.addAll(other.coeffsArray)
         }
+        answer.coeffsArray.addAll(maxItem.coeffsArray)
+        answer.coeffsArray.fill(0.0)
         while (indexCheck < minItem.coeffsArray.size) {
             if (minItem.coeffsArray[indexCheck] == 0.0) {
                 minItem.coeffsArray.removeAt(indexCheck)
@@ -163,19 +119,13 @@ class Polynom(vararg coeffs: Double) {
         }
         for (i in 0 until minItem.coeffsArray.size) {
             for (j in 0 until maxItem.coeffsArray.size) {
-                while (list.size != maxPower + minItem.coeffsArray.size) {
-                    list.add(0.0)
+                while (answer.coeffsArray.size != maxPower + minItem.coeffsArray.size) {
+                    answer.coeffsArray.add(0.0)
                 }
-                list[i + j] = list[i + j] + maxItem.coeffsArray[j] * minItem.coeffsArray[i]
+                answer.coeffsArray[i + j] += maxItem.coeffsArray[j] * minItem.coeffsArray[i]
             }
         }
-        val instance = Polynom()
-        instance.coeffsArray.addAll(list)
-        while (changeOfObjectIndex != -1) {
-            minItem.coeffsArray.removeAt(changeOfObjectIndex)
-            changeOfObjectIndex -= 1
-        }
-        return instance
+        return answer
     }
 
     /**
@@ -186,40 +136,20 @@ class Polynom(vararg coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom {
-        var dividend = Polynom()
-        dividend.coeffsArray.addAll(this.coeffsArray)
-        val divisor = Polynom()
-        divisor.coeffsArray.addAll(other.coeffsArray)
-        val answer = Polynom()
-        var tmp: Polynom
-        var indexForAnswer = 0
-        val specialAnswerPolynom = Polynom(0.0)
-        while (divisor.coeffsArray[0] == 0.0) {
-            divisor.coeffsArray.removeAt(0)
-        }
-        val sizeOfAnswerList = this.degree() - other.degree() + 1
-        while (answer.coeffsArray.size != sizeOfAnswerList) {
-            if (dividend.coeffsArray[0] == 0.0) {
-                dividend.coeffsArray.removeAt(0)
-            }
-            answer.coeffsArray.add(dividend.coeffsArray[0] / divisor.coeffsArray[0])
-            specialAnswerPolynom.coeffsArray[0] =
-                dividend.coeffsArray[0] / divisor.coeffsArray[0]
-            tmp = specialAnswerPolynom * divisor
-            while (tmp.degree() != dividend.degree()) {
-                tmp.coeffsArray.add(0.0)
-            }
-            dividend -= tmp
-            indexForAnswer++
-        }
-        return answer
-    }
+    operator fun div(other: Polynom): Polynom = this.divideBy(other).first
 
     /**
      * Взятие остатка
      */
     operator fun rem(other: Polynom): Polynom {
+        val remainder = this.divideBy(other).second
+        while (remainder.coeffsArray[0] == 0.0 && remainder.coeffsArray.size != 1) {
+            remainder.coeffsArray.removeAt(0)
+        }
+        return remainder
+    }
+
+    fun divideBy(other: Polynom, remainderTrigger: Boolean = false): Pair<Polynom, Polynom> {
         var dividend = Polynom()
         dividend.coeffsArray.addAll(this.coeffsArray)
         val divisor = Polynom()
@@ -231,7 +161,7 @@ class Polynom(vararg coeffs: Double) {
         while (divisor.coeffsArray[0] == 0.0) {
             divisor.coeffsArray.removeAt(0)
         }
-        val sizeOfAnswerList = this.coeffsArray.size - divisor.coeffsArray.size + 1
+        val sizeOfAnswerList = this.degree() - divisor.degree() + 1
         while (answer.coeffsArray.size != sizeOfAnswerList) {
             if (dividend.coeffsArray[0] == 0.0) {
                 dividend.coeffsArray.removeAt(0)
@@ -246,10 +176,26 @@ class Polynom(vararg coeffs: Double) {
             dividend -= tmp
             indexForAnswer++
         }
-        while (dividend.coeffsArray[0] == 0.0 && dividend.coeffsArray.size != 1) {
-            dividend.coeffsArray.removeAt(0)
+        return Pair(answer, dividend)
+    }
+
+    fun flattener(other: Polynom): Triple<Polynom, Polynom, Polynom> {
+        val first = Polynom()
+        first.coeffsArray.addAll(this.coeffsArray)
+        val second = Polynom()
+        second.coeffsArray.addAll(other.coeffsArray)
+        val answer = Polynom()
+        var index = 0
+        while (first.coeffsArray.size != second.coeffsArray.size) {
+            if (minOf(first.coeffsArray.size, second.coeffsArray.size) == first.coeffsArray.size) {
+                first.coeffsArray.add(index, 0.0)
+            } else if (minOf(first.coeffsArray.size, second.coeffsArray.size) == second.coeffsArray.size) {
+                second.coeffsArray.add(index, 0.0)
+            }
+            index++
         }
-        return dividend
+        answer.coeffsArray.addAll(first.coeffsArray)
+        return Triple(first, second, answer)
     }
 
     /**
