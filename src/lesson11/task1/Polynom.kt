@@ -149,6 +149,20 @@ class Polynom(vararg coeffs: Double) {
         return remainder
     }
 
+    /**
+     * Сравнение на равенство
+     */
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Polynom) return false
+        return this.getValue(1.0) == other.getValue(1.0)
+    }
+
+    /**
+     * Получение хеш-кода
+     */
+    override fun hashCode(): Int = this.coeffsArray.hashCode()
+
     fun divideBy(other: Polynom, remainderTrigger: Boolean = false): Pair<Polynom, Polynom> {
         var dividend = Polynom()
         dividend.coeffsArray.addAll(this.coeffsArray)
@@ -197,18 +211,4 @@ class Polynom(vararg coeffs: Double) {
         answer.coeffsArray.addAll(first.coeffsArray)
         return Triple(first, second, answer)
     }
-
-    /**
-     * Сравнение на равенство
-     */
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Polynom) return false
-        return this.getValue(1.0) == other.getValue(1.0)
-    }
-
-    /**
-     * Получение хеш-кода
-     */
-    override fun hashCode(): Int = this.coeffsArray.hashCode()
 }
